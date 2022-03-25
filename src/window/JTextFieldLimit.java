@@ -4,6 +4,9 @@ import javax.swing.text.AttributeSet;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.PlainDocument;
 
+/**
+ *  For Text field where the user
+ */
 public class JTextFieldLimit extends PlainDocument {
     private int limit;
     private boolean toUppercase = false;

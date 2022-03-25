@@ -16,16 +16,20 @@ import javax.swing.JMenuItem;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.text.DecimalFormat;
-import java.util.ArrayList;
 import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
+import java.util.List;
 import java.util.ResourceBundle;
 
+/**
+ *  Create window and exchange currencies
+ */
 public class MainWindow extends JFrame {
     private static final ResourceBundle BUNDLE = ResourceBundle.getBundle("localization.translation"); //$NON-NLS-1$
     private JPanel contentPane;
     private JTextField fieldAmount;
-    private ArrayList<Currency> currencies = Currency.init();
+    Currency currency = new Currency();
+    private List<Currency> currencies = currency.initCurrencies();
 
     /**
      * Create the mainWindow frame
@@ -92,7 +96,7 @@ public class MainWindow extends JFrame {
         contentPane.add(lblConvert);
 
         // ComboBox of the first currency
-        final JComboBox<String> comboBoxCountry1 = new JComboBox<String>();
+        final JComboBox<String> comboBoxCountry1 = new JComboBox<>();
         comboBoxCountry1.setBounds(147, 7, 240, 28);
         populate(comboBoxCountry1, currencies);
         contentPane.add(comboBoxCountry1);
@@ -104,7 +108,7 @@ public class MainWindow extends JFrame {
         contentPane.add(lblTo);
 
         // ComboBox of the second currency
-        final JComboBox<String> comboBoxCountry2 = new JComboBox<String>();
+        final JComboBox<String> comboBoxCountry2 = new JComboBox<>();
         comboBoxCountry2.setBounds(147, 47, 240, 28);
         populate(comboBoxCountry2, currencies);
         contentPane.add(comboBoxCountry2);
@@ -115,7 +119,7 @@ public class MainWindow extends JFrame {
         lblAmount.setBounds(23, 108, 69, 15);
         contentPane.add(lblAmount);
 
-        // Textfield where the user
+        // Text field where the user
         fieldAmount = new JTextField();
         fieldAmount.setText("0.00");
         fieldAmount.setBounds(147, 101, 103, 29);
@@ -164,22 +168,33 @@ public class MainWindow extends JFrame {
         contentPane.add(btnConvert);
     }
 
-    // Fill comboBox with currencies name
-    public static void populate(JComboBox<String> comboBox, ArrayList<Currency> currencies) {
-        for (Integer i = 0; i < currencies.size(); i++) {
+    /**
+     *      Fill comboBox with currencies name
+     * @param comboBox Box where put currency name
+     * @param currencies list of currencies
+     */
+    public static void populate(JComboBox<String> comboBox, List<Currency> currencies) {
+        for (int i = 0; i < currencies.size(); i++) {
             comboBox.addItem( currencies.get(i).getName() );
         }
     }
 
-    // Find the short name and the exchange value of the second currency
-    public static Double convert(String currency1, String currency2, ArrayList<Currency> currencies, Double amount) {
+    /**
+     *      Find the short name and the exchange value of the second currency
+     * @param currency1 first convertible currency
+     * @param currency2 second convertible currency
+     * @param currencies    list of currencies
+     * @param amount    how much to convert
+     * @return  convert result
+     */
+    public static Double convert(String currency1, String currency2, List<Currency> currencies, Double amount) {
         String shortNameCurrency2 = null;
         Double exchangeValue;
-        Double price = 0.0;
+        double price = 0.0;
 
         // Find shortname for the second currency
-        for (Integer i = 0; i < currencies.size(); i++) {
-            if (currencies.get(i).getName() == currency2) {
+        for (int i = 0; i < currencies.size(); i++) {
+            if (currencies.get(i).getName().equals(currency2)) {
                 shortNameCurrency2 = currencies.get(i).getShortName();
                 break;
             }
@@ -187,8 +202,8 @@ public class MainWindow extends JFrame {
 
         // Find exchange value and call convert() to calcul the new price
         if (shortNameCurrency2 != null) {
-            for (Integer i = 0; i < currencies.size(); i++) {
-                if (currencies.get(i).getName() == currency1) {
+            for (int i = 0; i < currencies.size(); i++) {
+                if (currencies.get(i).getName().equals(currency1)) {
                     exchangeValue = currencies.get(i).getExchangeValues().get(shortNameCurrency2);
                     price = Currency.convert(amount, exchangeValue);
                     break;
