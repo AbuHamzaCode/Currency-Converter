@@ -61,55 +61,55 @@ public class Currency {
                 break;
             case "Euro":
                 this.exchangeValues.put("EUR", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=EUR&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=EUR&amount=1", this.exchangeValues);
                 break;
             case "British Pound":
                 this.exchangeValues.put("GBP", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=GBP&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=GBP&amount=1", this.exchangeValues);
                 break;
             case "Swiss Franc":
                 this.exchangeValues.put("CHF", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=CHF&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=CHF&amount=1", this.exchangeValues);
                 break;
             case "Chinese Yuan Renminbi":
                 this.exchangeValues.put("CNY", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=CNY&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=CNY&amount=1", this.exchangeValues);
                 break;
             case "Japanese Yen":
                 this.exchangeValues.put("JPY", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=JPY&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=JPY&amount=1", this.exchangeValues);
                 break;
             case "Russian Ruble":
                 this.exchangeValues.put("RUB", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=RUB&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=RUB&amount=1", this.exchangeValues);
                 break;
             case "Kazakhstani Tenge":
                 this.exchangeValues.put("KZT", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=KZT&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=KZT&amount=1", this.exchangeValues);
                 break;
             case "South African Rand":
                 this.exchangeValues.put("ZAR", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=ZAR&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=ZAR&amount=1", this.exchangeValues);
                 break;
             case "Saudi Arabian Riyal":
                 this.exchangeValues.put("SAR", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=SAR&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=SAR&amount=1", this.exchangeValues);
                 break;
             case "Emirati Dirham":
                 this.exchangeValues.put("AED", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=AED&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=AED&amount=1", this.exchangeValues);
                 break;
             case "Turkish Lira":
                 this.exchangeValues.put("TRY", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=TRY&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=TRY&amount=1", this.exchangeValues);
                 break;
             case "Indian Rupee":
                 this.exchangeValues.put("INR", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=INR&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=INR&amount=1", this.exchangeValues);
                 break;
             case "Polish Zloty":
                 this.exchangeValues.put("PLN", 1.00);
-                setParseInit("https://www.x-rates.com/table/?from=PLN&amount=1", this.exchangeValues);
+                parseAndFillMap("https://www.x-rates.com/table/?from=PLN&amount=1", this.exchangeValues);
                 break;
         }
     }
@@ -120,7 +120,7 @@ public class Currency {
      * @param url   website url
      * @param map   map to fill out
      */
-    private void setParseInit(String url, Map<String, Double> map){
+    private void parseAndFillMap(String url, Map<String, Double> map){
         Parser.init(url);
         for (Map.Entry<String, Map<String, Double>> entry : Parser.getCurrencyMap().entrySet()) {
             map.putAll(entry.getValue());
@@ -133,8 +133,10 @@ public class Currency {
      */
     public List<Currency> initCurrencies() {
         List<Currency> currencies = new ArrayList<>();
-        Parser.init("https://www.x-rates.com/table/?from=USD&amount=1");
 
+        Parser.init("https://www.x-rates.com/table/?from=USD&amount=1");
+        // there we add USD currency because when we parse site with Parser.init() method
+        // return all currency without USD
         currencies.add(new Currency("US Dollar", "USD"));
 
         for (Map.Entry<String, Map<String, Double>> entry : Parser.getCurrencyMap().entrySet()) {
